@@ -1,0 +1,47 @@
+<script type="text/javascript">
+	var typ = 0;
+	
+	var lmi = 0
+	var prevCount = 0
+	if(receiver)
+		var lastonline = ''
+	function typing(abc){
+		$.post('/typing/',
+		{
+			to: receiver,
+			csrfmiddlewaretoken: csrftoken,
+			remove: abc
+		}
+			)
+		return;
+	}
+	function handleChange(event,that){
+		if(event.key == 'Enter'){
+			submitMessage(that.value);
+			that.value = '';
+			typing(1)
+			typ = 0;
+		}
+		if((that.value.length> 0 && typ == 0)){
+			typing(0);
+			typ = 1;
+		}
+		if (that.value == '') {
+			typing(1)
+			typ  = 0;
+		}
+	}
+	function submitMessage(message){
+		  $.post("/submitMessage/",
+			  {
+			    message: message,
+			    to: receiver,
+
+			    csrfmiddlewaretoken: csrftoken
+
+
+			  });
+	}
+
+	
+</script>
